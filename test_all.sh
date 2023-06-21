@@ -1,1 +1,1 @@
-bazel query cabby/... | xargs bazel test
+bazel query rvs/... | xargs bazel test

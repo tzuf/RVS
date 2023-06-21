@@ -1,5 +1,5 @@
 # Check the types in everything.
-pytype cabby
+pytype rvs
 
 # Build everything
-bazel query cabby/... | xargs bazel build
+bazel query rvs/... | xargs bazel build
