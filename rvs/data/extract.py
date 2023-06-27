@@ -186,7 +186,7 @@ def split_dataset(
   assert percentage_dev + percentage_train <= 1, (
     "percentage_dev+percentage_train is more than 1.")
 
-  # TODO (https://github.com/googleinterns/cabby/issues/28#issue-695818890):
+  # TODO (https://github.com/googleinterns/rvs/issues/28#issue-695818890):
   # Change split by qid so that it will ensure qid isn't shared between sets
 
   # Sort the dataset by ref_title.

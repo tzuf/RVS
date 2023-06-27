@@ -2,7 +2,8 @@
 
 ## Data
 
-The data can be found here - https://github.com/tzuf/RVS/tree/main/dataset/.
+The data can be found here - 
+[https://github.com/tzuf/RVS/tree/main/dataset/](https://github.com/tzuf/RVS/tree/main/dataset/)
 
 The data contains four json files corresponding to four split-sets: train (Manhattan), seen-city development (Manhattan), unseen-city development (Pittsburgh) ,and test (Philadelphia).
 
@@ -13,29 +14,36 @@ Each sample contains the following:
 * rvs_goal_point - the coordinates of the goal location.
 
 
-
-# Installation:
-## Install conda environment
+## Run model
 ```
-conda env create -f environment.yml
+bazel-bin/rvs/model/text/model_trainer --processed_data_dir OUTDIR --train_region Manhattan --dev_region Manhattan_dev --test_region Manhattan_dev  --output_dir OUTDIR
 ```
 
-## Install BAZEL
+## Installation:
+### Install conda environment
+```
+conda create --name rvs -y
+conda activate rvs
+python3 -m pip install -r requirements.txt
+
+```
+
+### Install BAZEL
 ```
 apt install bazel
 ```
 
-## BAZEL: Build
+### BAZEL: Build
 ```
 source build_all.sh
 ```
 
-## BAZEL: Test
+### BAZEL: Test
 ```
 source test_all.sh
 ```
 
-## BAZEL: Run
+### BAZEL: Run
 ```
 source run_all.sh
 ```

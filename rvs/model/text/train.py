@@ -27,6 +27,8 @@ from torch.utils.data import DataLoader
 from rvs.evals import utils as eu
 from rvs.model import util
 
+# os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
+
 EARLY_STOP = 50
 
 class Trainer:

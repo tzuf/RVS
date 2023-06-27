@@ -13,8 +13,8 @@
 # limitations under the License.
 """Utility for distance based evaluation for geo models in RVS.
 Example:
-$ bazel run -- cabby/evals/eval_geo_model \
-  --input_file /mnt/hackney/data/cabby/evals/sample_predictions.tsv
+$ bazel run -- rvs/evals/eval_geo_model \
+  --input_file path.tsv
 The input_file is expected to be a tab-separated file with:
   example_id
   true_latitude
@@ -28,9 +28,9 @@ from absl import app, flags
 
 import torch
 
-from cabby import logger
-from cabby.evals import utils
-from cabby.model import util
+from rvs import logger
+from rvs.evals import utils
+from rvs.model import util
 
 FLAGS = flags.FLAGS
 flags.DEFINE_bool("preprocess_pytorch_output", False,

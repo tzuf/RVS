@@ -62,11 +62,15 @@ TASKS = ["WikiGeo", "RVS", "RUN", "human"]
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string("data_dir", None,
+CURRENT_DIR = os.getcwd()
+
+DEFAULT_GRAPH_DIR = os.path.join(CURRENT_DIR, "rvs/model/text/graph_embedding")
+
+flags.DEFINE_string("raw_data_dir", "./dataset",
                     "The directory from which to load the dataset.")
 
-flags.DEFINE_string("dataset_dir", None,
-                    "The directory to save\load dataloader.")
+flags.DEFINE_string("processed_data_dir", None,
+                    "The directory to save\load the processed dataset.")
 
 flags.DEFINE_enum(
   "train_region", None, regions.SUPPORTED_REGION_NAMES,
@@ -81,14 +85,14 @@ flags.DEFINE_enum(
   regions.REGION_SUPPORT_MESSAGE)
 
 flags.DEFINE_enum(
-  "task", "WikiGeo", TASKS,
+  "task", "human", TASKS,
   f"Supported datasets to train\evaluate on: {','.join(TASKS)}. ")
 
 flags.DEFINE_enum(
-  "model", "Dual-Encoder-Bert", dataset_item.MODELS,
+  "model", "S2-Generation-T5-text-start-embedding-to-landmarks", dataset_item.MODELS,
   f"Supported models to train\evaluate on:  {','.join(dataset_item.MODELS)}.")
 
-flags.DEFINE_integer("s2_level", None, "S2 level of the S2Cells.")
+flags.DEFINE_integer("s2_level", 16, "S2 level of the S2Cells.")
 
 flags.DEFINE_string("output_dir", None,
                     "The directory where the model and results will be save to.")
@@ -110,15 +114,15 @@ flags.DEFINE_string("test_graph_embed_path", default="",
                     help="The path to the graph embedding.")
 
 flags.DEFINE_integer(
-  'train_batch_size', default=4,
+  'train_batch_size', default=100,
   help=('Batch size for training.'))
 
 flags.DEFINE_integer(
-  'test_batch_size', default=4,
+  'test_batch_size', default=400,
   help=('Batch size for testing and validating.'))
 
 flags.DEFINE_integer(
-  'num_epochs', default=5,
+  'num_epochs', default=300,
   help=('Number of training epochs.'))
 
 flags.DEFINE_integer(
@@ -149,13 +153,17 @@ flags.DEFINE_bool(
     'This is optional only for RVS and RUN.'))
 
 flags.DEFINE_integer(
-  'graph_codebook', default=0,
+  'graph_codebook', default=150,
   help=('graph quantization'))
+
+flags.DEFINE_integer(
+  'n_quantizations', default=2,
+  help=('number of clusters in graph quantization'))
 
 
 # Required flags.
-flags.mark_flag_as_required("data_dir")
-flags.mark_flag_as_required("dataset_dir")
+flags.mark_flag_as_required("raw_data_dir")
+flags.mark_flag_as_required("processed_data_dir")
 flags.mark_flag_as_required("train_region")
 flags.mark_flag_as_required("dev_region")
 flags.mark_flag_as_required("test_region")
@@ -168,10 +176,23 @@ def main(argv):
   for name in FLAGS:
     logging.info(f'  {name}: {getattr(FLAGS, name)}')
     
-  if not os.path.exists(FLAGS.dataset_dir):
-    sys.exit("Dataset path doesn't exist: {}.".format(FLAGS.dataset_dir))
+  if not os.path.exists(FLAGS.processed_data_dir):
+    sys.exit("Dataset path doesn't exist: {}.".format(FLAGS.processed_data_dir))
 
-  dataset_model_path = os.path.join(FLAGS.dataset_dir, str(FLAGS.model))
+  if not FLAGS.train_graph_embed_path:
+    FLAGS.train_graph_embed_path = os.path.join(
+      DEFAULT_GRAPH_DIR, f"embedding_{FLAGS.train_region.lower()}.pth")
+  
+  if not FLAGS.dev_graph_embed_path:
+    FLAGS.dev_graph_embed_path = os.path.join(
+      DEFAULT_GRAPH_DIR, f"embedding_{FLAGS.dev_region.lower()}.pth")
+
+  if not FLAGS.test_graph_embed_path:
+    FLAGS.test_graph_embed_path = os.path.join(
+      DEFAULT_GRAPH_DIR, f"embedding_{FLAGS.test_region.lower()}.pth")
+
+
+  dataset_model_path = os.path.join(FLAGS.processed_data_dir, str(FLAGS.model))
   dataset_path = os.path.join(dataset_model_path, str(FLAGS.s2_level))
 
 
@@ -192,7 +213,7 @@ def main(argv):
 
   if os.path.exists(dataset_path):
     dataset_text = dataset_item.TextGeoDataset.load(
-      dataset_dir=FLAGS.dataset_dir,
+      dataset_dir=FLAGS.processed_data_dir,
       model_type=str(FLAGS.model),
       s2_level=FLAGS.s2_level,
       train_region=FLAGS.train_region,
@@ -202,7 +223,7 @@ def main(argv):
 
   else:
     dataset = dataset_init(
-      data_dir=FLAGS.data_dir,
+      data_dir=FLAGS.raw_data_dir,
       train_region=FLAGS.train_region,
       dev_region=FLAGS.dev_region,
       test_region=FLAGS.test_region,
@@ -245,7 +266,8 @@ def main(argv):
     run_model = models.S2GenerationModel(
       label_to_cellid=dataset_text.test_set.coord_to_cellid, device=device, model_type=FLAGS.model,
       vq_dim=dataset_text.train_set.graph_embed_size,
-      graph_codebook=FLAGS.graph_codebook)
+      graph_codebook=FLAGS.graph_codebook,
+      n_quantizations=FLAGS.n_quantizations)
   elif FLAGS.model == 'Classification-Bert':
     n_cells = len(dataset_text.test_set.unique_cellids)
     run_model = models.ClassificationModel(n_cells, device=device)

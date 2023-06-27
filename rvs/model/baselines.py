@@ -51,7 +51,7 @@ TASKS = ["RVS", "RUN", "human"]
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string("data_dir", None,
+flags.DEFINE_string("raw_data_dir", None,
                     "The directory from which to load the dataset.")
 
 flags.DEFINE_string("metrics_dir", None,
@@ -66,13 +66,13 @@ flags.DEFINE_enum(
   regions.REGION_SUPPORT_MESSAGE)
 
 # Required flags.
-flags.mark_flag_as_required("data_dir")
+flags.mark_flag_as_required("raw_data_dir")
 flags.mark_flag_as_required("metrics_dir")
 
 
 def main(argv):
-  if not os.path.exists(FLAGS.data_dir):
-    sys.exit("Dataset path doesn't exist: {}.".format(FLAGS.data_dir))
+  if not os.path.exists(FLAGS.raw_data_dir):
+    sys.exit("Dataset path doesn't exist: {}.".format(FLAGS.raw_data_dir))
 
   metrics_path = os.path.join(FLAGS.metrics_dir, 'metrics.tsv')
 
@@ -87,7 +87,7 @@ def main(argv):
     sys.exit("Dataset invalid")
 
   dataset = dataset_init(
-    data_dir=FLAGS.data_dir,
+    data_dir=FLAGS.raw_data_dir,
     train_region=FLAGS.region,
     dev_region=FLAGS.region,
     test_region=FLAGS.region,
@@ -144,7 +144,7 @@ def main(argv):
     start_point,
     start_point)
 
-  logging.info(f"CENTER-MOVE evaluation for task {FLAGS.task}:")
+  logging.info(f"LANDMARK evaluation for task {FLAGS.task}:")
   evaluator = eu.Evaluator()
 
   error_distances = evaluator.get_error_distances(metrics_path)

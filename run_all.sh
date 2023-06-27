@@ -40,22 +40,22 @@ mkdir -p $OUTPUT_DIR_MODEL_RVS_FIXED_5
 mkdir -p $OUTPUT_DIR_MODEL_HUMAN
 
 echo "*                 Dual-Encoder-Bert  - HUMAN DATA             *"
-bazel-bin/rvs/model/text/model_trainer  --data_dir ~/RVS/dataset --dataset_dir $OUTPUT_DIR_MODEL_HUMAN --train_region Manhattan --dev_region Manhattan --test_region Manhattan --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task human --model Dual-Encoder-Bert
+bazel-bin/rvs/model/text/model_trainer  --raw_data_dir ~/RVS/dataset --processed_data_dir $OUTPUT_DIR_MODEL_HUMAN --train_region Manhattan --dev_region Manhattan --test_region Manhattan --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task human --model Dual-Encoder-Bert
 
 echo "*                 Classification-Bert  - HUMAN DATA             *"
-bazel-bin/rvs/model/text/model_trainer  --data_dir ~/RVS/dataset --dataset_dir $OUTPUT_DIR_MODEL_HUMAN --train_region Manhattan --dev_region Manhattan --test_region Manhattan --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task human --model Classification-Bert
+bazel-bin/rvs/model/text/model_trainer  --raw_data_dir ~/RVS/dataset --processed_data_dir $OUTPUT_DIR_MODEL_HUMAN --train_region Manhattan --dev_region Manhattan --test_region Manhattan --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task human --model Classification-Bert
 
 echo "*                 S2-Generation-T5    - HUMAN DATA           *"
-bazel-bin/rvs/model/text/model_trainer  --data_dir ~/RVS/dataset --dataset_dir $OUTPUT_DIR_MODEL_HUMAN --train_region Manhattan --dev_region Manhattan --test_region Manhattan --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task human --model S2-Generation-T5
+bazel-bin/rvs/model/text/model_trainer  --raw_data_dir ~/RVS/dataset --processed_data_dir $OUTPUT_DIR_MODEL_HUMAN --train_region Manhattan --dev_region Manhattan --test_region Manhattan --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task human --model S2-Generation-T5
 
 echo "*                 S2-Generation-T5-start-text-input    - HUMAN DATA           *"
-bazel-bin/rvs/model/text/model_trainer  --data_dir ~/RVS/dataset --dataset_dir $OUTPUT_DIR_MODEL_HUMAN --train_region Manhattan --dev_region Manhattan --test_region Manhattan --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task human --model S2-Generation-T5-start-text-input
+bazel-bin/rvs/model/text/model_trainer  --raw_data_dir ~/RVS/dataset --processed_data_dir $OUTPUT_DIR_MODEL_HUMAN --train_region Manhattan --dev_region Manhattan --test_region Manhattan --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task human --model S2-Generation-T5-start-text-input
 
 echo "*                 S2-Generation-T5-Landmarks   - HUMAN DATA            *"
-bazel-bin/rvs/model/text/model_trainer  --data_dir ~/RVS/dataset --dataset_dir $OUTPUT_DIR_MODEL_HUMAN --train_region Manhattan --dev_region Manhattan --test_region Manhattan --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task human --model S2-Generation-T5-Landmarks
+bazel-bin/rvs/model/text/model_trainer  --raw_data_dir ~/RVS/dataset --processed_data_dir $OUTPUT_DIR_MODEL_HUMAN --train_region Manhattan --dev_region Manhattan --test_region Manhattan --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task human --model S2-Generation-T5-Landmarks
 
 echo "*                Baseline           *"
-bazel-bin/rvs/model/baselines --data_dir ~/RVS/dataset --metrics_dir $OUTPUT_DIR_MODEL_HUMAN  --task human --region Philadelphia 
+bazel-bin/rvs/model/baselines --raw_data_dir ~/RVS/dataset --metrics_dir $OUTPUT_DIR_MODEL_HUMAN  --task human --region Philadelphia 
 
 
 echo "****************************************"

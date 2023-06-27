@@ -70,5 +70,5 @@ poi = poi.loc[1]
 
 ## Code for creating an OSM-based graph
 ```
-bazel-bin/cabby/geo/map_processing/map_processor --region REGION --min_s2_level LEVEL --directory DIRECTORY_TO_MAP
+bazel-bin/rvs/geo/map_processing/map_processor --region REGION --min_s2_level LEVEL --directory DIRECTORY_TO_MAP
 ```

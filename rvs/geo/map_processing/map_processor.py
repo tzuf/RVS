@@ -12,8 +12,8 @@
 
 '''Command line application to output all POI in an area of the OSM.
 Example:
-$ bazel-bin/cabby/geo/map_processing/map_processor --region "DC" \ 
---min_s2_level 18 --directory "./cabby/geo/map_processing/poiTestData/"
+$ bazel-bin/rvs/geo/map_processing/map_processor --region "DC" \ 
+--min_s2_level 18 --directory "./rvs/geo/map_processing/poiTestData/"
 '''
 
 from absl import app

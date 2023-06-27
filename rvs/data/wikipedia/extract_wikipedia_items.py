@@ -14,7 +14,7 @@
 
 '''Example command line method to extract Wikipedia items.
 Example:
-$ bazel-bin/cabby/data/wikipedia/extract_wikipedia_items --titles="New_York_Stock_Exchange, Empire_State_Building"
+$ bazel-bin/rvs/data/wikipedia/extract_wikipedia_items --titles="New_York_Stock_Exchange, Empire_State_Building"
 '''
 
 

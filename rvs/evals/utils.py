@@ -103,8 +103,8 @@ class Evaluator:
     norm_auc = auc / (_MAX_LOG_HAVERSINE_DIST * (num_examples - 1))
 
     logging.info(
-      "Metrics: \nExact accuracy : [%.2f]\n10 m accuracy : [%.2f]\n100 m accuracy : [%.2f]" +
-      "\n250 m accuracy : [%.2f]" + "\nmean error [%.2f], " +
+      "Metrics: \nExact accuracy : [%.4f]\n10 m accuracy : [%.4f]\n100 m accuracy : [%.4f]" +
+      "\n250 m accuracy : [%.4f]" + "\nmean error [%.2f], " +
       "\nmedian error [%.2f]\nmax error [%.2f]\n" +
       "AUC of error curve [%.2f]", accuracy, accuracy_10m, accuracy_100m, accuracy_250m,
       mean_distance, median_distance, max_error, norm_auc)

@@ -14,7 +14,7 @@
 
 '''Example command line method to extract wikidata items.
 Example:
-$ bazel-bin/cabby/data/wikidata/extract_geofenced_wikidata_items \
+$ bazel-bin/rvs/data/wikidata/extract_geofenced_wikidata_items \
   --region Pittsburgh
 '''
 
