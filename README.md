@@ -22,7 +22,7 @@ bazel-bin/rvs/model/text/model_trainer --processed_data_dir OUTDIR --train_regio
 ## Installation:
 ### Install conda environment
 ```
-conda create --name rvs -y
+conda create --name rvs python=3.8.15 -y;
 conda activate rvs
 python3 -m pip install -r requirements.txt
 
